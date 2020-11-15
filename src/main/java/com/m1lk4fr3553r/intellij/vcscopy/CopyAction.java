@@ -6,6 +6,8 @@ import com.intellij.openapi.actionSystem.CommonDataKeys;
 import com.intellij.openapi.actionSystem.LangDataKeys;
 import com.intellij.openapi.editor.CaretModel;
 import com.intellij.openapi.editor.Editor;
+import com.intellij.openapi.editor.SelectionModel;
+import com.intellij.openapi.editor.VisualPosition;
 import com.intellij.openapi.fileEditor.FileDocumentManager;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.Messages;
@@ -24,18 +26,29 @@ public class CopyAction extends AnAction {
         .ifPresent( virtualFile -> Optional.ofNullable(anActionEvent.getProject())
             .map(Project::getBasePath)
             .ifPresent(basepath -> Optional.ofNullable(anActionEvent.getData(CommonDataKeys.EDITOR))
-                .map(Editor::getCaretModel)
-                .map(CaretModel::getLogicalPosition)
-                .map(model -> model.line + 1)
-                .ifPresent( lineNumber -> {
+                .map(Editor::getSelectionModel)
+                .ifPresent( selectionModel -> {
                   var finalPath = virtualFile.getPath().replace(basepath, "");
                   Optional.ofNullable(GitUtil.getRepositoryManager(anActionEvent.getProject()).getRepositoryForFile(virtualFile))
                       .map(GitRepository::getCurrentRevision)
                       .ifPresentOrElse( revision -> {
                         var settings = SettingsState.getInstance();
                         Formatter formatter = new Formatter();
-                        var url = formatter.format(settings.vcsType.singleLinePattern, settings.urlPrefix, revision, finalPath, lineNumber).toString();
-                        Messages.showMessageDialog( url, "Message", Messages.getInformationIcon());
+                        Optional.ofNullable(selectionModel.getSelectionStartPosition())
+                            .map(VisualPosition::getLine)
+                            .ifPresent(startLine -> {
+                              Optional.ofNullable(selectionModel.getSelectionEndPosition())
+                                  .map(VisualPosition::getLine)
+                                  .ifPresent(endLine -> {
+                                    String url;
+                                    if(startLine.equals(endLine)) {
+                                      url = formatter.format(settings.vcsType.singleLinePattern, settings.urlPrefix, revision, finalPath, startLine).toString();
+                                    } else {
+                                      url = formatter.format(settings.vcsType.multiLinePattern, settings.urlPrefix, revision, finalPath, startLine, endLine).toString();
+                                    }
+                                    Messages.showMessageDialog(url, "Message", Messages.getInformationIcon());
+                                  });
+                            });
                       }, () -> Messages.showMessageDialog( "Could not get Revision number.", "Error", Messages.getErrorIcon()));
                 })));
   }

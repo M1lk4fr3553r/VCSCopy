@@ -4,7 +4,6 @@ import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.CommonDataKeys;
 import com.intellij.openapi.editor.Editor;
-import com.intellij.openapi.editor.VisualPosition;
 import com.intellij.openapi.fileEditor.FileDocumentManager;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.Messages;
@@ -35,9 +34,9 @@ public class CopyAction extends AnAction {
                         var settings = SettingsState.getInstance();
                         Formatter formatter = new Formatter();
                         Optional.ofNullable(selectionModel.getSelectionStartPosition())
-                            .map(VisualPosition::getLine)
+                            .map(visualPosition -> visualPosition.getLine() + 1)
                             .ifPresent(startLine -> Optional.ofNullable(selectionModel.getSelectionEndPosition())
-                                .map(VisualPosition::getLine)
+                                .map(visualPosition -> visualPosition.getLine() + 1)
                                 .ifPresent(endLine -> {
                                   String url;
                                   if(startLine.equals(endLine)) {

@@ -16,7 +16,7 @@ import org.jetbrains.annotations.Nullable;
 @State(name = "com.m1lk4fr3553r.intellij.vcscopy.SettingsState",
     storages = {@Storage("VCSURLCopyPlugin.xml")})
 public class SettingsState implements PersistentStateComponent<SettingsState> {
-  public String urlPrefix = "github.com/M1lk4fr3553r/VCSCopy/";
+  public String urlPrefix = "https://github.com/M1lk4fr3553r/VCSCopy";
   public VCSType vcsType = VCSType.GITHUB;
 
   public static SettingsState getInstance() {

@@ -16,7 +16,7 @@
   </change-notes>
 
   <!-- please see https://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/build_number_ranges.html for description -->
-  <idea-version since-build="173.0"/>
+  <idea-version since-build="182.2371.4"/>
 
   <!-- please see https://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/plugin_compatibility.html
        on how to target different products -->
@@ -24,7 +24,10 @@
   <depends>Git4Idea</depends>
 
   <extensions defaultExtensionNs="com.intellij">
-    <!-- Add your extensions here -->
+    <applicationService serviceImplementation="com.m1lk4fr3553r.intellij.vcscopy.SettingsState"/>
+    <applicationConfigurable parentId="tools" instance="com.m1lk4fr3553r.intellij.vcscopy.SettingsConfigurable"
+      id="com.m1lk4fr3553r.intellij.vcscopy.SettingsConfigurable"
+      displayName="VCS Copy URL"/>
   </extensions>
 
   <actions>

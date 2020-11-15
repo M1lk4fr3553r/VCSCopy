@@ -13,23 +13,23 @@ import org.jetbrains.annotations.Nullable;
  * The {@link State} and {@link Storage} annotations define the name of the data and the file name where
  * these persistent application settings are stored.
  */
-@State(name = "com.m1lk4fr3553r.intellij.vcscopy.Settings")
-public class Settings implements PersistentStateComponent<Settings> {
+@State(name = "com.m1lk4fr3553r.intellij.vcscopy.SettingsState",
+    storages = {@Storage("VCSURLCopyPlugin.xml")})
+public class SettingsState implements PersistentStateComponent<SettingsState> {
+  public String urlPrefix = "github.com/M1lk4fr3553r/VCSCopy/";
 
-  public String basePath = "github.com/M1lk4fr3553r/VCSCopy/";
-
-  public static Settings getInstance() {
-    return ServiceManager.getService(Settings.class);
+  public static SettingsState getInstance() {
+    return ServiceManager.getService(SettingsState.class);
   }
 
   @Nullable
   @Override
-  public Settings getState() {
+  public SettingsState getState() {
     return this;
   }
 
   @Override
-  public void loadState(@NotNull Settings state) {
+  public void loadState(@NotNull SettingsState state) {
     XmlSerializerUtil.copyBean(state, this);
   }
 

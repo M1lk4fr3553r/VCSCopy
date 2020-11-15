@@ -32,7 +32,8 @@ public class CopyAction extends AnAction {
                   Optional.ofNullable(GitUtil.getRepositoryManager(anActionEvent.getProject()).getRepositoryForFile(virtualFile))
                       .map(GitRepository::getCurrentRevision)
                       .ifPresentOrElse( revision -> {
-                        var url = String.format("%s/blob/%s/%s#L%d", "PLACEHOLDER---", revision, finalPath, lineNumber);
+                        var prefix = SettingsState.getInstance().urlPrefix;
+                        var url = String.format("%s/blob/%s/%s#L%d", prefix, revision, finalPath, lineNumber);
                         Messages.showMessageDialog( url, "Message", Messages.getInformationIcon());
                       }, () -> Messages.showMessageDialog( "Could not get Revision number.", "Error", Messages.getErrorIcon()));
                 })));

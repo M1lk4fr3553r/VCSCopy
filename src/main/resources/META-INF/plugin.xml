@@ -1,25 +1,20 @@
 <idea-plugin>
-  <id>com.your.company.unique.plugin.id</id>
-  <name>Plugin display name here</name>
+  <id>com.m1lk4fr3553r.intellij.vcscopy</id>
+  <name>VCS URL Copy</name>
   <version>1.0</version>
-  <vendor email="support@yourcompany.com" url="http://www.yourcompany.com">YourCompany</vendor>
+  <vendor email="m1lk4fr3553r@outlook.de" url="http://m1lk4fr3553r.com">M1lk4fr3553r</vendor>
 
   <description><![CDATA[
-      Enter short description for your plugin here.<br>
-      <em>most HTML tags may be used</em>
+      Plugin to copy the URL to the current line (or lines) to the clipboard.
     ]]></description>
 
   <change-notes><![CDATA[
-      Add change notes here.<br>
-      <em>most HTML tags may be used</em>
+      Version 1.0: Plugin released, currently supported providers: Github, Gitlab.
     ]]>
   </change-notes>
 
-  <!-- please see https://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/build_number_ranges.html for description -->
   <idea-version since-build="202.5103.13"/>
 
-  <!-- please see https://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/plugin_compatibility.html
-       on how to target different products -->
   <depends>com.intellij.modules.platform</depends>
   <depends>Git4Idea</depends>
 

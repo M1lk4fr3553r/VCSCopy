@@ -11,11 +11,11 @@ import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.Messages;
 import git4idea.GitUtil;
 import git4idea.repo.GitRepository;
+import java.util.Formatter;
 import java.util.Optional;
 import org.jetbrains.annotations.NotNull;
 
 public class CopyAction extends AnAction {
-
   @Override
   public void actionPerformed(@NotNull AnActionEvent anActionEvent) {
     Optional.ofNullable(anActionEvent.getData(LangDataKeys.EDITOR))
@@ -32,8 +32,9 @@ public class CopyAction extends AnAction {
                   Optional.ofNullable(GitUtil.getRepositoryManager(anActionEvent.getProject()).getRepositoryForFile(virtualFile))
                       .map(GitRepository::getCurrentRevision)
                       .ifPresentOrElse( revision -> {
-                        var prefix = SettingsState.getInstance().urlPrefix;
-                        var url = String.format("%s/blob/%s/%s#L%d", prefix, revision, finalPath, lineNumber);
+                        var settings = SettingsState.getInstance();
+                        Formatter formatter = new Formatter();
+                        var url = formatter.format(settings.vcsType.singleLinePattern, settings.urlPrefix, revision, finalPath, lineNumber).toString();
                         Messages.showMessageDialog( url, "Message", Messages.getInformationIcon());
                       }, () -> Messages.showMessageDialog( "Could not get Revision number.", "Error", Messages.getErrorIcon()));
                 })));

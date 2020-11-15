@@ -33,7 +33,8 @@ public class SettingsConfigurable implements Configurable {
   @Override
   public boolean isModified() {
     return Optional.ofNullable(SettingsState.getInstance())
-        .map(settings -> !settingsComponent.getUrlPrefix().equals(settings.urlPrefix))
+        .map(settings -> !settingsComponent.getUrlPrefix().equals(settings.urlPrefix) ||
+            !settingsComponent.getVCSType().equals(settings.vcsType))
         .orElseGet( () -> {
           log.error("Could not check modification state");
           return false;
@@ -43,15 +44,21 @@ public class SettingsConfigurable implements Configurable {
   @Override
   public void apply() {
     Optional.ofNullable(SettingsState.getInstance())
-        .ifPresentOrElse(settings -> settings.urlPrefix = settingsComponent.getUrlPrefix(),
+        .ifPresentOrElse(settings -> {
+          settings.urlPrefix = settingsComponent.getUrlPrefix();
+          settings.vcsType = settingsComponent.getVCSType();
+            },
             () -> log.error("Could not apply changes"));
   }
 
   @Override
   public void reset() {
     Optional.ofNullable(SettingsState.getInstance())
-        .ifPresentOrElse(settings -> settingsComponent.setUrlPrefix(settings.urlPrefix),
-            () -> log.error("Could not reset URL prefix"));
+        .ifPresentOrElse(settings ->  {
+          settingsComponent.setUrlPrefix(settings.urlPrefix);
+          settingsComponent.setVCSType(settings.vcsType);
+            },
+            () -> log.error("Could not reset settings"));
   }
 
   @Override

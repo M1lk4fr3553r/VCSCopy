@@ -25,30 +25,48 @@ public class CopyAction extends AnAction {
         .ifPresent( virtualFile -> Optional.ofNullable(anActionEvent.getProject())
             .map(Project::getBasePath)
             .ifPresent(basePath -> Optional.ofNullable(anActionEvent.getData(CommonDataKeys.EDITOR))
-                .map(Editor::getSelectionModel)
-                .ifPresent( selectionModel -> {
-                  var finalPath = virtualFile.getPath().replace(basePath, "");
-                  Optional.ofNullable(GitUtil.getRepositoryManager(anActionEvent.getProject()).getRepositoryForFileQuick(virtualFile))
-                      .map(GitRepository::getCurrentRevision)
-                      .ifPresentOrElse( revision -> {
-                        var settings = SettingsState.getInstance();
-                        Formatter formatter = new Formatter();
-                        Optional.ofNullable(selectionModel.getSelectionStartPosition())
-                            .map(visualPosition -> visualPosition.getLine() + 1)
-                            .ifPresent(startLine -> Optional.ofNullable(selectionModel.getSelectionEndPosition())
-                                .map(visualPosition -> visualPosition.getLine() + 1)
-                                .ifPresent(endLine -> {
-                                  String url;
-                                  if(startLine.equals(endLine)) {
-                                    url = formatter.format(settings.vcsType.singleLinePattern, settings.urlPrefix, revision, finalPath, startLine).toString();
-                                  } else {
-                                    url = formatter.format(settings.vcsType.multiLinePattern, settings.urlPrefix, revision, finalPath, startLine, endLine).toString();
-                                  }
-                                  setClipboard(url);
-                                  Notifyer.notifySuccess(anActionEvent.getProject(), "URL to line %d successfully copied.", startLine);
-                                }));
-                      }, () -> Messages.showMessageDialog( "Could not get Revision number.", "Error", Messages.getErrorIcon()));
-                })));
+                .map(Editor::getCaretModel)
+                .ifPresent(caretModel -> Optional.ofNullable(GitUtil.getRepositoryManager(anActionEvent.getProject())
+                    .getRepositoryForFileQuick(virtualFile))
+                    .map(GitRepository::getCurrentRevision)
+                    .ifPresentOrElse(revision -> Optional.of(caretModel.getLogicalPosition())
+                        .map(logicalPosition -> logicalPosition.line + 1)
+                        .ifPresent(startLine -> Optional
+                            .ofNullable(anActionEvent.getData(CommonDataKeys.EDITOR))
+                            .map(Editor::getSelectionModel)
+                            .map(SelectionData::new)
+                            .ifPresent(selectionData -> {
+                              setClipboard(buildURL(virtualFile, basePath, revision, startLine,
+                                  selectionData));
+                              Notifyer.notifySuccess(anActionEvent.getProject(),
+                                  "URL to line %d successfully copied.", startLine);
+                            })), () -> Messages.showMessageDialog("Could not get Revision number.", "Error",
+                        Messages.getErrorIcon())))));
+  }
+
+  @NotNull
+  private String buildURL(com.intellij.openapi.vfs.VirtualFile virtualFile, String basePath,
+      String revision, Integer startLine, SelectionData selectionData) {
+    String url;
+    var finalPath = virtualFile.getPath().replace(basePath, "");
+    var settings = SettingsState.getInstance();
+    try (Formatter formatter = new Formatter()) {
+      if (selectionData.offset == 0) {
+        url = formatter
+            .format(settings.vcsType.singleLinePattern, settings.urlPrefix, revision, finalPath,
+                startLine).toString();
+      } else if (!selectionData.isReverse) {
+        url = formatter
+            .format(settings.vcsType.multiLinePattern, settings.urlPrefix, revision, finalPath,
+                startLine
+                    - selectionData.offset, startLine).toString();
+      } else {
+        url = formatter
+            .format(settings.vcsType.multiLinePattern, settings.urlPrefix, revision, finalPath,
+                startLine, startLine + selectionData.offset).toString();
+      }
+    }
+    return url;
   }
 
   private void setClipboard(String string) {

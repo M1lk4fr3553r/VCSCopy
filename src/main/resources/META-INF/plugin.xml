@@ -1,7 +1,7 @@
 <idea-plugin>
   <id>com.m1lk4fr3553r.intellij.vcscopy</id>
   <name>VCS URL Copy</name>
-  <version>1.0</version>
+  <version>1.1</version>
   <vendor email="m1lk4fr3553r@outlook.de" url="http://m1lk4fr3553r.com">M1lk4fr3553r</vendor>
 
   <description><![CDATA[
@@ -9,7 +9,8 @@
     ]]></description>
 
   <change-notes><![CDATA[
-      Version 1.0: Plugin released, currently supported providers: Github, Gitlab.
+      Version 1.0: Plugin released, currently supported providers: Github, Gitlab.<br>
+      Version 1.1: Fixed some issues with multiline selections.
     ]]>
   </change-notes>
 

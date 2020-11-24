@@ -13,9 +13,9 @@
       Version 1.1: Fixed some issues with multiline selections.<br>
       Version 1.2:
       <ul>
-        <li>Settings are now stored on ProjectLevel.</li>
+        <li>Settings are now stored on ProjectLevel</li>
         <li>Plugin moved to the VCS Menu</li>
-        <li>Added action to open URL in the default browser.</li>
+        <li>Added action to open URL in the default browser</li>
       </ul>
     ]]>
   </change-notes>

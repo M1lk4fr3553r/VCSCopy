@@ -1,4 +1,4 @@
-package com.m1lk4fr3553r.intellij.vcscopy;
+package com.m1lk4fr3553r.intellij.vcscopy.helper;
 
 import com.intellij.notification.NotificationDisplayType;
 import com.intellij.notification.NotificationGroup;
@@ -10,8 +10,8 @@ public class Notifyer {
   private static final NotificationGroup NOTIFICATION_GROUP =
       new NotificationGroup("VCS URL Copied", NotificationDisplayType.BALLOON, false);
 
-  public static void notifySuccess(@Nullable Project project, String content) {
-    NOTIFICATION_GROUP.createNotification(content, NotificationType.INFORMATION)
+  public static void notifySuccess(@Nullable Project project, String message) {
+    NOTIFICATION_GROUP.createNotification(message, NotificationType.INFORMATION)
         .notify(project);
   }
 

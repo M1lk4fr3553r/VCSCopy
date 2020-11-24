@@ -15,6 +15,7 @@
       <ul>
         <li>Settings are now stored on ProjectLevel.</li>
         <li>Plugin moved to the VCS Menu</li>
+        <li>Added action to open URL in the default browser.</li>
       </ul>
     ]]>
   </change-notes>
@@ -25,17 +26,21 @@
   <depends>Git4Idea</depends>
 
   <extensions defaultExtensionNs="com.intellij">
-    <projectService serviceImplementation="com.m1lk4fr3553r.intellij.vcscopy.SettingsState"/>
-    <projectConfigurable parentId="tools" instance="com.m1lk4fr3553r.intellij.vcscopy.SettingsConfigurable"
-      id="com.m1lk4fr3553r.intellij.vcscopy.SettingsConfigurable"
+    <projectService serviceImplementation="com.m1lk4fr3553r.intellij.vcscopy.settings.SettingsState"/>
+    <projectConfigurable parentId="tools" instance="com.m1lk4fr3553r.intellij.vcscopy.settings.SettingsConfigurable"
+      id="com.m1lk4fr3553r.intellij.vcscopy.settings.SettingsConfigurable"
       displayName="VCS Copy URL"/>
   </extensions>
 
   <actions>
     <!-- Add your actions here -->
-    <action id="com.m1lk4fr3553r.intellij.vcscopy.CopyAction" class="com.m1lk4fr3553r.intellij.vcscopy.CopyAction" text="Copy VCS URL">
+    <action id="com.m1lk4fr3553r.intellij.vcscopy.action.CopyAction" class="com.m1lk4fr3553r.intellij.vcscopy.action.CopyAction" text="Copy VCS URL">
       <add-to-group group-id="VcsGroups" anchor="last"/>
       <keyboard-shortcut keymap="$default" first-keystroke="shift ctrl alt Y"/>
+    </action>
+    <action id="com.m1lk4fr3553r.intellij.vcscopy.action.OpenAction" class="com.m1lk4fr3553r.intellij.vcscopy.action.OpenAction" text="Open VCS URL">
+      <add-to-group group-id="VcsGroups" anchor="last"/>
+      <keyboard-shortcut keymap="$default" first-keystroke="shift ctrl alt X"/>
     </action>
   </actions>
 

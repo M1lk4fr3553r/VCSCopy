@@ -1,4 +1,4 @@
-package com.m1lk4fr3553r.intellij.vcscopy;
+package com.m1lk4fr3553r.intellij.vcscopy.settings;
 
 import com.intellij.openapi.options.Configurable;
 import com.intellij.openapi.project.Project;

@@ -1,9 +1,10 @@
-package com.m1lk4fr3553r.intellij.vcscopy;
+package com.m1lk4fr3553r.intellij.vcscopy.settings;
 
 import com.intellij.openapi.ui.ComboBox;
 import com.intellij.ui.components.JBLabel;
 import com.intellij.ui.components.JBTextField;
 import com.intellij.util.ui.FormBuilder;
+import com.m1lk4fr3553r.intellij.vcscopy.model.VCSType;
 import java.util.Arrays;
 import javax.swing.JComponent;
 import javax.swing.JPanel;

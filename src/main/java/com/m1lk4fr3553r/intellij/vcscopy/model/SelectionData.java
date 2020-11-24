@@ -1,4 +1,4 @@
-package com.m1lk4fr3553r.intellij.vcscopy;
+package com.m1lk4fr3553r.intellij.vcscopy.model;
 
 import com.intellij.openapi.editor.SelectionModel;
 

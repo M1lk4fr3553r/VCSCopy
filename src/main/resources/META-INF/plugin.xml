@@ -30,7 +30,8 @@
   <actions>
     <!-- Add your actions here -->
     <action id="com.m1lk4fr3553r.intellij.vcscopy.CopyAction" class="com.m1lk4fr3553r.intellij.vcscopy.CopyAction" text="Copy VCS URL">
-      <add-to-group group-id="ToolsMenu" anchor="first"/>
+      <add-to-group group-id="VcsGroups" anchor="last"/>
+      <keyboard-shortcut keymap="$default" first-keystroke="shift ctrl alt Y"/>
     </action>
   </actions>
 

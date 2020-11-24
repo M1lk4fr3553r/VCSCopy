@@ -11,7 +11,11 @@
   <change-notes><![CDATA[
       Version 1.0: Plugin released, currently supported providers: Github, Gitlab.<br>
       Version 1.1: Fixed some issues with multiline selections.<br>
-      Version 1.2: Settings are now stored on ProjectLevel.
+      Version 1.2:
+      <ul>
+        <li>Settings are now stored on ProjectLevel.</li>
+        <li>Plugin moved to the VCS Menu</li>
+      </ul>
     ]]>
   </change-notes>
 

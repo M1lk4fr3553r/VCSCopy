@@ -6,7 +6,7 @@ sourceCompatibility = JavaVersion.VERSION_11
 targetCompatibility = JavaVersion.VERSION_11
 
 group 'com.m1lk4fr3553r.intellij.vcscopy'
-version '1.1'
+version '1.2'
 
 repositories {
     mavenCentral()

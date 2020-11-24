@@ -19,10 +19,6 @@ public class SettingsState implements PersistentStateComponent<SettingsState> {
   public String urlPrefix = "https://github.com/M1lk4fr3553r/VCSCopy";
   public VCSType vcsType = VCSType.GITHUB;
 
-  public static SettingsState getInstance() {
-    return ServiceManager.getService(SettingsState.class);
-  }
-
   @Nullable
   @Override
   public SettingsState getState() {

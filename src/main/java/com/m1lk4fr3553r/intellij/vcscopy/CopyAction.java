@@ -37,7 +37,7 @@ public class CopyAction extends AnAction {
                             .map(SelectionData::new)
                             .ifPresent(selectionData -> {
                               setClipboard(buildURL(virtualFile, basePath, revision, startLine,
-                                  selectionData));
+                                  selectionData, anActionEvent.getProject()));
                               Notifyer.notifySuccess(anActionEvent.getProject(),
                                   "URL to line %d successfully copied.", startLine);
                             })), () -> Messages.showMessageDialog("Could not get Revision number.", "Error",
@@ -46,10 +46,10 @@ public class CopyAction extends AnAction {
 
   @NotNull
   private String buildURL(com.intellij.openapi.vfs.VirtualFile virtualFile, String basePath,
-      String revision, Integer startLine, SelectionData selectionData) {
+      String revision, Integer startLine, SelectionData selectionData, Project project) {
     String url;
     var finalPath = virtualFile.getPath().replace(basePath, "");
-    var settings = SettingsState.getInstance();
+    var settings = project.getService(SettingsState.class);
     try (Formatter formatter = new Formatter()) {
       if (selectionData.offset == 0) {
         url = formatter

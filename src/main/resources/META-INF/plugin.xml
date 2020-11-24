@@ -1,7 +1,7 @@
 <idea-plugin>
   <id>com.m1lk4fr3553r.intellij.vcscopy</id>
   <name>VCS URL Copy</name>
-  <version>1.1</version>
+  <version>1.2</version>
   <vendor email="m1lk4fr3553r@outlook.de" url="http://m1lk4fr3553r.com">M1lk4fr3553r</vendor>
 
   <description><![CDATA[
@@ -10,7 +10,8 @@
 
   <change-notes><![CDATA[
       Version 1.0: Plugin released, currently supported providers: Github, Gitlab.<br>
-      Version 1.1: Fixed some issues with multiline selections.
+      Version 1.1: Fixed some issues with multiline selections.<br>
+      Version 1.2: Settings are now stored on ProjectLevel.
     ]]>
   </change-notes>
 
@@ -20,8 +21,8 @@
   <depends>Git4Idea</depends>
 
   <extensions defaultExtensionNs="com.intellij">
-    <applicationService serviceImplementation="com.m1lk4fr3553r.intellij.vcscopy.SettingsState"/>
-    <applicationConfigurable parentId="tools" instance="com.m1lk4fr3553r.intellij.vcscopy.SettingsConfigurable"
+    <projectService serviceImplementation="com.m1lk4fr3553r.intellij.vcscopy.SettingsState"/>
+    <projectConfigurable parentId="tools" instance="com.m1lk4fr3553r.intellij.vcscopy.SettingsConfigurable"
       id="com.m1lk4fr3553r.intellij.vcscopy.SettingsConfigurable"
       displayName="VCS Copy URL"/>
   </extensions>
